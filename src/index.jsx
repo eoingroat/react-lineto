@@ -188,7 +188,9 @@ export class Line extends PureComponent {
                 <div
                     ref={(el) => { this.el = el; }}
                     {...props}
-                 />
+                  >
+                  { this.props.children || null }
+                </div>
             </div>
         );
     }

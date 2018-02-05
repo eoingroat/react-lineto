@@ -81,3 +81,28 @@ function render() {
 | style      | object | Override default styles                        | `{ border: 'none', height: '2px', background-image: 'linear-gradient(261deg, #fd7700, #fd4400)' }`
 
 \* Required
+
+### Labels
+
+
+To add a label, simply add it as a child:
+
+```
+import LineTo, { Line } from 'react-lineto';
+
+function render() {
+    return (
+        <div>
+            <div className="A">Element A</div>
+            <div className="B">Element B</div>
+            <LineTo from="A" to="B">
+                Line from A to B
+            </LineTo>
+            <Line x0={0} y0={0} x1={10} y1={10}>
+                Line from (0,0) to (10,10)
+            </Line>
+        </div>
+    );
+}
+```
+
