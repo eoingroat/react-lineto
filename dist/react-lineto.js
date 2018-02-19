@@ -762,12 +762,12 @@ LineTo.propTypes = Object.assign({}, {
     fromAnchor: _propTypes2.default.string,
     toAnchor: _propTypes2.default.string,
     delay: _propTypes2.default.number,
-    bottomSpace: _propTypes2.default.number,
+    bottomSpace: _propTypes2.default.string,
     stepped: _propTypes2.default.bool
 }, optionalStyleProps);
 
 LineTo.defaultProps = {
-    bottomSpace: 20,
+    bottomSpace: '20%',
     stepped: false
 };
 
@@ -824,7 +824,7 @@ var Line = exports.Line = function (_PureComponent) {
                 top: y0 + 'px',
                 left: x0 + 'px',
                 width: length + 'px',
-                zIndex: this.props.zIndex || '1',
+                zIndex: '1',
                 transform: 'rotate(' + angle + 'deg)',
                 // Rotate around (x0, y0)
                 transformOrigin: '0 0'
@@ -837,7 +837,7 @@ var Line = exports.Line = function (_PureComponent) {
 
             var props = {
                 className: this.props.className,
-                style: Object.assign({}, defaultStyle, this.props.style, positionStyle)
+                style: Object.assign({}, defaultStyle, positionStyle, this.props.style)
 
                 // We need a wrapper element to prevent an exception when then
                 // React component is removed. This is because we manually

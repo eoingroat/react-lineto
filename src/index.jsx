@@ -195,12 +195,12 @@ LineTo.propTypes = Object.assign({}, {
     fromAnchor: PropTypes.string,
     toAnchor: PropTypes.string,
     delay: PropTypes.number,
-    bottomSpace: PropTypes.number,
+    bottomSpace: PropTypes.string,
     stepped: PropTypes.bool
 }, optionalStyleProps);
 
 LineTo.defaultProps = {
-    bottomSpace: 20,
+    bottomSpace: '20%',
     stepped: false
   };
 
@@ -235,7 +235,7 @@ export class Line extends PureComponent {
             top: `${y0}px`,
             left: `${x0}px`,
             width: `${length}px`,
-            zIndex: this.props.zIndex || '1',
+            zIndex: '1',
             transform: `rotate(${angle}deg)`,
             // Rotate around (x0, y0)
             transformOrigin: '0 0',
@@ -248,7 +248,7 @@ export class Line extends PureComponent {
 
         const props = {
             className: this.props.className,
-            style: Object.assign({}, defaultStyle, this.props.style, positionStyle),
+            style: Object.assign({}, defaultStyle, positionStyle, this.props.style),
         }
 
         // We need a wrapper element to prevent an exception when then
