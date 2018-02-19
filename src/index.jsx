@@ -235,7 +235,7 @@ export class Line extends PureComponent {
             top: `${y0}px`,
             left: `${x0}px`,
             width: `${length}px`,
-            zIndex: '1',
+            zIndex: Reflect.apply(Object.hasOwnProperty, this.props, 'zIndex') ? this.props.zIndex : '1',
             transform: `rotate(${angle}deg)`,
             // Rotate around (x0, y0)
             transformOrigin: '0 0',
