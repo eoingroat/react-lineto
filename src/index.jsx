@@ -14,6 +14,7 @@ export default class LineTo extends Component {
     componentWillMount() {
         this.fromAnchor = this.parseAnchor(this.props.fromAnchor);
         this.toAnchor = this.parseAnchor(this.props.toAnchor);
+        this.bottomSpace = this.parseAnchorPercent(this.props.bottomSpace);
     }
 
     componentDidMount() {
@@ -97,7 +98,7 @@ export default class LineTo extends Component {
     }
 
     detect() {
-        const { from, to, within = '', bottomSpace } = this.props;
+        const { from, to, within = '' } = this.props;
 
         const a = this.findElement(from);
         const b = this.findElement(to);
@@ -128,7 +129,7 @@ export default class LineTo extends Component {
         const y0 = box0.top + box0.height * anchor0.y + offsetY;
         const y1 = box1.top + box1.height * anchor1.y + offsetY;
 
-        const y2 = y1 - bottomSpace;
+        const y2 = (y1 - y0) * this.bottomSpace;
 
         /* For diagonal lines you need just two points => (x0, y0) and (x1, y1)
          But for drawing stepped type lines you need 3 lines and 4 points:
@@ -141,10 +142,10 @@ export default class LineTo extends Component {
                              |
                              |
              (x1, y2).------. (x0, y2)       /\
-                     |                       |
-                     |                       |   bottomSpace
-                     |                       |
-                     * (x1, y1)              \?
+                     |                       ||
+                     |                       ||  bottomSpace
+                     |                       ||
+                     * (x1, y1)              \/
          */
 
         return { x0, y0, x1, y1, y2 };
@@ -152,6 +153,9 @@ export default class LineTo extends Component {
 
     render() {
         const points = this.detect();
+        const children = this.props.children || null;
+        const props = Object.assign({ children: null }, this.props);
+
         if (this.props.stepped) {
             return points ? (
             <div>
@@ -160,21 +164,22 @@ export default class LineTo extends Component {
                 y0={points.y0}
                 x1={points.x0}
                 y1={points.y2}
-                {...this.props}
+                {...props}
               />
               <Line
                 x0={points.x0}
                 y0={points.y2}
                 x1={points.x1}
                 y1={points.y2}
-                {...this.props}
-              />
+                {...props}
+              >{ children }
+              </Line>
               <Line
                 x0={points.x1}
                 y0={points.y1}
                 x1={points.x1}
                 y1={points.y2}
-                {...this.props}
+                {...props}
               />
             </div>
           ) : null;

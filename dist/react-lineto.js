@@ -554,6 +554,7 @@ var LineTo = function (_Component) {
         value: function componentWillMount() {
             this.fromAnchor = this.parseAnchor(this.props.fromAnchor);
             this.toAnchor = this.parseAnchor(this.props.toAnchor);
+            this.bottomSpace = this.parseAnchorPercent(this.props.bottomSpace);
         }
     }, {
         key: 'componentDidMount',
@@ -657,8 +658,7 @@ var LineTo = function (_Component) {
                 from = _props.from,
                 to = _props.to,
                 _props$within = _props.within,
-                within = _props$within === undefined ? '' : _props$within,
-                bottomSpace = _props.bottomSpace;
+                within = _props$within === undefined ? '' : _props$within;
 
 
             var a = this.findElement(from);
@@ -690,7 +690,7 @@ var LineTo = function (_Component) {
             var y0 = box0.top + box0.height * anchor0.y + offsetY;
             var y1 = box1.top + box1.height * anchor1.y + offsetY;
 
-            var y2 = y1 - bottomSpace;
+            var y2 = (y1 - y0) * this.bottomSpace;
 
             /* For diagonal lines you need just two points => (x0, y0) and (x1, y1)
              But for drawing stepped type lines you need 3 lines and 4 points:
@@ -702,10 +702,10 @@ var LineTo = function (_Component) {
                                  |
                                  |
                  (x1, y2).------. (x0, y2)       /\
-                         |                       |
-                         |                       |   bottomSpace
-                         |                       |
-                         * (x1, y1)              \?
+                         |                       ||
+                         |                       ||  bottomSpace
+                         |                       ||
+                         * (x1, y1)              \/
              */
 
             return { x0: x0, y0: y0, x1: x1, y1: y1, y2: y2 };
@@ -714,6 +714,9 @@ var LineTo = function (_Component) {
         key: 'render',
         value: function render() {
             var points = this.detect();
+            var children = this.props.children || null;
+            var props = Object.assign({ children: null }, this.props);
+
             if (this.props.stepped) {
                 return points ? _react2.default.createElement(
                     'div',
@@ -723,19 +726,23 @@ var LineTo = function (_Component) {
                         y0: points.y0,
                         x1: points.x0,
                         y1: points.y2
-                    }, this.props)),
-                    _react2.default.createElement(Line, _extends({
-                        x0: points.x0,
-                        y0: points.y2,
-                        x1: points.x1,
-                        y1: points.y2
-                    }, this.props)),
+                    }, props)),
+                    _react2.default.createElement(
+                        Line,
+                        _extends({
+                            x0: points.x0,
+                            y0: points.y2,
+                            x1: points.x1,
+                            y1: points.y2
+                        }, props),
+                        children
+                    ),
                     _react2.default.createElement(Line, _extends({
                         x0: points.x1,
                         y0: points.y1,
                         x1: points.x1,
                         y1: points.y2
-                    }, this.props))
+                    }, props))
                 ) : null;
             }
             return points ? _react2.default.createElement(Line, _extends({}, points, this.props)) : null;
