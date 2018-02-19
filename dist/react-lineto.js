@@ -657,7 +657,8 @@ var LineTo = function (_Component) {
                 from = _props.from,
                 to = _props.to,
                 _props$within = _props.within,
-                within = _props$within === undefined ? '' : _props$within;
+                within = _props$within === undefined ? '' : _props$within,
+                bottomSpace = _props.bottomSpace;
 
 
             var a = this.findElement(from);
@@ -689,12 +690,54 @@ var LineTo = function (_Component) {
             var y0 = box0.top + box0.height * anchor0.y + offsetY;
             var y1 = box1.top + box1.height * anchor1.y + offsetY;
 
-            return { x0: x0, y0: y0, x1: x1, y1: y1 };
+            var y2 = y1 - bottomSpace;
+
+            /* For diagonal lines you need just two points => (x0, y0) and (x1, y1)
+             But for drawing stepped type lines you need 3 lines and 4 points:
+                Line 1: (x0, y0) -> (x0, y2)
+               Line 2: (x1, y2) -> (x0, y2)
+               Line 3: (x1, y1) -> (x1, y2)
+                                 * (x0, y0)
+                                 |
+                                 |
+                                 |
+                 (x1, y2).------. (x0, y2)       /\
+                         |                       |
+                         |                       |   bottomSpace
+                         |                       |
+                         * (x1, y1)              \?
+             */
+
+            return { x0: x0, y0: y0, x1: x1, y1: y1, y2: y2 };
         }
     }, {
         key: 'render',
         value: function render() {
             var points = this.detect();
+            if (this.props.stepped) {
+                return points ? _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(Line, _extends({
+                        x0: points.x0,
+                        y0: points.y0,
+                        x1: points.x0,
+                        y1: points.y2
+                    }, this.props)),
+                    _react2.default.createElement(Line, _extends({
+                        x0: points.x0,
+                        y0: points.y2,
+                        x1: points.x1,
+                        y1: points.y2
+                    }, this.props)),
+                    _react2.default.createElement(Line, _extends({
+                        x0: points.x1,
+                        y0: points.y1,
+                        x1: points.x1,
+                        y1: points.y2
+                    }, this.props))
+                ) : null;
+            }
             return points ? _react2.default.createElement(Line, _extends({}, points, this.props)) : null;
         }
     }]);
@@ -711,8 +754,15 @@ LineTo.propTypes = Object.assign({}, {
     within: _propTypes2.default.string,
     fromAnchor: _propTypes2.default.string,
     toAnchor: _propTypes2.default.string,
-    delay: _propTypes2.default.number
+    delay: _propTypes2.default.number,
+    bottomSpace: _propTypes2.default.number,
+    stepped: _propTypes2.default.bool
 }, optionalStyleProps);
+
+LineTo.defaultProps = {
+    bottomSpace: 20,
+    stepped: false
+};
 
 var Line = exports.Line = function (_PureComponent) {
     _inherits(Line, _PureComponent);
