@@ -129,7 +129,7 @@ export default class LineTo extends Component {
         const y0 = box0.top + box0.height * anchor0.y + offsetY;
         const y1 = box1.top + box1.height * anchor1.y + offsetY;
 
-        const y2 = (y1 - y0) * this.bottomSpace;
+        const y2 = (y1 - y0) * this.bottomSpace + y0;
 
         /* For diagonal lines you need just two points => (x0, y0) and (x1, y1)
          But for drawing stepped type lines you need 3 lines and 4 points:

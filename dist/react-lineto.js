@@ -690,7 +690,7 @@ var LineTo = function (_Component) {
             var y0 = box0.top + box0.height * anchor0.y + offsetY;
             var y1 = box1.top + box1.height * anchor1.y + offsetY;
 
-            var y2 = (y1 - y0) * this.bottomSpace;
+            var y2 = (y1 - y0) * this.bottomSpace + y0;
 
             /* For diagonal lines you need just two points => (x0, y0) and (x1, y1)
              But for drawing stepped type lines you need 3 lines and 4 points:
