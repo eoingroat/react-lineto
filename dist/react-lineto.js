@@ -674,8 +674,8 @@ var LineTo = function (_Component) {
             var box0 = a.getBoundingClientRect();
             var box1 = b.getBoundingClientRect();
 
-            var offsetX = window.pageXOffset;
-            var offsetY = window.pageYOffset;
+            var offsetX = 0;
+            var offsetY = 0;
 
             if (within) {
                 var p = this.findElement(within);
