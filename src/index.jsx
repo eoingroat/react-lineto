@@ -113,8 +113,8 @@ export default class LineTo extends Component {
         const box0 = a.getBoundingClientRect();
         const box1 = b.getBoundingClientRect();
 
-        let offsetX = window.pageXOffset;
-        let offsetY = window.pageYOffset;
+        let offsetX = 0;
+        let offsetY = 0;
 
         if (within) {
             const p = this.findElement(within);
