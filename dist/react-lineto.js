@@ -715,7 +715,7 @@ var LineTo = function (_Component) {
         value: function render() {
             var points = this.detect();
             var children = this.props.children || null;
-            var props = Object.assign({ children: null }, this.props);
+            var props = Object.assign(this.props, { children: null });
 
             if (this.props.stepped) {
                 return points ? _react2.default.createElement(
