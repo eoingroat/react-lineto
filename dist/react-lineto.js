@@ -714,19 +714,23 @@ var LineTo = function (_Component) {
         key: 'render',
         value: function render() {
             var points = this.detect();
-            var children = this.props.children || null;
+            var children = this.props.children || [];
             var props = Object.assign(this.props, { children: null });
 
             if (this.props.stepped) {
                 return points ? _react2.default.createElement(
                     'div',
                     null,
-                    _react2.default.createElement(Line, _extends({
-                        x0: points.x0,
-                        y0: points.y0,
-                        x1: points.x0,
-                        y1: points.y2
-                    }, props)),
+                    _react2.default.createElement(
+                        Line,
+                        _extends({
+                            x0: points.x0,
+                            y0: points.y0,
+                            x1: points.x0,
+                            y1: points.y2
+                        }, props),
+                        children[0] || null
+                    ),
                     _react2.default.createElement(
                         Line,
                         _extends({
@@ -735,14 +739,18 @@ var LineTo = function (_Component) {
                             x1: points.x1,
                             y1: points.y2
                         }, props),
-                        children
+                        children[1] || null
                     ),
-                    _react2.default.createElement(Line, _extends({
-                        x0: points.x1,
-                        y0: points.y1,
-                        x1: points.x1,
-                        y1: points.y2
-                    }, props))
+                    _react2.default.createElement(
+                        Line,
+                        _extends({
+                            x0: points.x1,
+                            y0: points.y1,
+                            x1: points.x1,
+                            y1: points.y2
+                        }, props),
+                        children[2] || null
+                    )
                 ) : null;
             }
             return points ? _react2.default.createElement(Line, _extends({}, points, this.props)) : null;
