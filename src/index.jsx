@@ -154,7 +154,7 @@ export default class LineTo extends Component {
     render() {
         const points = this.detect();
         const children = this.props.children || null;
-        const props = Object.assign({ children: null }, this.props);
+        const props = Object.assign(this.props, { children: null });
 
         if (this.props.stepped) {
             return points ? (
