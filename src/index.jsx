@@ -153,7 +153,7 @@ export default class LineTo extends Component {
 
     render() {
         const points = this.detect();
-        const children = this.props.children || null;
+        const children = this.props.children || [];
         const props = Object.assign(this.props, { children: null });
 
         if (this.props.stepped) {
@@ -165,14 +165,15 @@ export default class LineTo extends Component {
                 x1={points.x0}
                 y1={points.y2}
                 {...props}
-              />
+              >{children[0] || null}
+              </Line>
               <Line
                 x0={points.x0}
                 y0={points.y2}
                 x1={points.x1}
                 y1={points.y2}
                 {...props}
-              >{ children }
+              >{children[1] || null}
               </Line>
               <Line
                 x0={points.x1}
@@ -180,7 +181,8 @@ export default class LineTo extends Component {
                 x1={points.x1}
                 y1={points.y2}
                 {...props}
-              />
+              >{children[2] || null}
+              </Line>
             </div>
           ) : null;
         }
